@@ -29,6 +29,40 @@
           Escolha seu Pokémon, selecione o modo de jogo e domine as novas mecânicas de combate: Arenas com efeitos, Sistema de Energia, Combos, Esquiva ativa e Chefes lendários!
         </p>
 
+        <!-- Controles de Áudio, Ajustes e Desafios -->
+        <div class="audio-controls-bar">
+          <button id="btn-toggle-sound" class="btn-audio-toggle active" title="Ativar/Desativar Efeitos Sonoros">
+            <span id="sound-icon">🔊</span> <span id="sound-text">Sons: ON</span>
+          </button>
+          <button id="btn-toggle-music" class="btn-audio-toggle" title="Ativar/Desativar Música de Fundo">
+            <span id="music-icon">🎵</span> <span id="music-text">Música: OFF</span>
+          </button>
+          <button id="btn-open-settings" class="btn-audio-toggle" title="Configurações e Acessibilidade">
+            <span>⚙️</span> <span>Configurações</span>
+          </button>
+          <button id="btn-open-quests" class="btn-audio-toggle" title="Desafios Diários Locais">
+            <span>📅</span> <span>Desafios Diários</span>
+          </button>
+        </div>
+
+        <!-- Barra de Progresso de Vitórias para Desbloqueio de Pokémon (Requisito 9) -->
+        <div id="unlock-progress-container" class="unlock-progress-container">
+          <div class="unlock-progress-header">
+            <div class="unlock-progress-label">
+              <span class="unlock-icon">🏆</span>
+              <span id="unlock-progress-title">Vitórias para próximo Pokémon:</span>
+              <strong id="unlock-progress-text">0 / 5</strong>
+            </div>
+            <div class="unlock-next-target" id="unlock-next-target">
+              <span class="next-target-label">Próximo a desbloquear:</span>
+              <span id="unlock-target-name" class="next-target-name">Eevee</span>
+            </div>
+          </div>
+          <div class="unlock-progress-track">
+            <div id="unlock-progress-bar" class="unlock-progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
         <!-- Seletor de Modo de Jogo -->
         <div class="game-mode-selector">
           <button id="mode-quick" class="mode-tab-btn active" data-mode="quick">
@@ -43,7 +77,7 @@
             <span class="mode-icon">🗺️</span>
             <div class="mode-text-box">
               <span class="mode-title">Modo Aventura</span>
-              <span class="mode-desc">Mapa, Lojas, Eventos e Chefes</span>
+              <span class="mode-desc">Campanha com 6 Áreas, Eventos e Chefes</span>
             </div>
           </button>
 
@@ -51,7 +85,15 @@
             <span class="mode-icon">👑</span>
             <div class="mode-text-box">
               <span class="mode-title">Desafio de Chefe</span>
-              <span class="mode-desc">Batalha com Fases e Transformações</span>
+              <span class="mode-desc">Batalha com IA Estratégica</span>
+            </div>
+          </button>
+
+          <button id="mode-training" class="mode-tab-btn" data-mode="training">
+            <span class="mode-icon">🎮</span>
+            <div class="mode-text-box">
+              <span class="mode-title">Modo Treino</span>
+              <span class="mode-desc">Teste mecânicas, clima e habilidades</span>
             </div>
           </button>
         </div>
@@ -83,7 +125,22 @@
 
       <div class="selection-heading">
         <h2 id="selection-heading-title">Escolha seu Pokémon</h2>
-        <span class="selection-counter" id="selection-counter">8 Lutadores Disponíveis</span>
+        <span class="selection-counter" id="selection-counter">28 Lutadores Disponíveis</span>
+      </div>
+
+      <!-- Barra de Filtros de Tipos (28 Pokémon) -->
+      <div class="pokemon-filters-bar" id="pokemon-filters-bar">
+        <button class="filter-pill active" data-filter="all">🌟 Todos (28)</button>
+        <button class="filter-pill" data-filter="unlocked">🔓 Desbloqueados</button>
+        <button class="filter-pill" data-filter="Fogo">🔥 Fogo</button>
+        <button class="filter-pill" data-filter="Água">💧 Água</button>
+        <button class="filter-pill" data-filter="Elétrico">⚡ Elétrico</button>
+        <button class="filter-pill" data-filter="Planta">🌿 Planta</button>
+        <button class="filter-pill" data-filter="Psíquico">🔮 Psíquico</button>
+        <button class="filter-pill" data-filter="Dragão">🐉 Dragão</button>
+        <button class="filter-pill" data-filter="Normal">⭐ Normal</button>
+        <button class="filter-pill" data-filter="Lutador">🥊 Lutador</button>
+        <button class="filter-pill" data-filter="Fantasma">👻 Fantasma</button>
       </div>
 
       <!-- Grid com os cards dos Pokémon -->
@@ -106,11 +163,25 @@
             ☀️ Modo Diurno
           </button>
 
+          <!-- Botões de Áudio na Batalha -->
+          <button id="btn-battle-sound" class="btn-secondary btn-icon-only active" title="Alternar Efeitos Sonoros">
+            <span id="battle-sound-icon">🔊</span>
+          </button>
+          <button id="btn-battle-music" class="btn-secondary btn-icon-only" title="Alternar Música de Fundo">
+            <span id="battle-music-icon">🎵</span>
+          </button>
+
           <!-- Indicador da Arena com Tooltip Explicativo -->
           <div id="arena-badge" class="arena-badge" title="Clique para ver o efeito da Arena">
             <span id="arena-icon" class="arena-icon">🌿</span>
             <span id="arena-name" class="arena-name">Floresta Encantada</span>
             <span class="arena-info-btn">ℹ️</span>
+          </div>
+
+          <!-- Indicador de Clima (Requisito 9) -->
+          <div id="weather-badge" class="weather-badge" title="Clima Atual da Batalha">
+            <span id="weather-icon" class="weather-icon">☀️</span>
+            <span id="weather-name" class="weather-name">Ensolarado</span>
           </div>
 
           <!-- Indicador de Fase do Chefe (quando aplicável) -->
@@ -135,6 +206,28 @@
         </div>
       </div>
 
+      <!-- Barra de Ferramentas Exclusiva do Modo Treino (Requisito 10) -->
+      <div id="training-controls-bar" class="training-controls-bar hidden">
+        <span class="training-bar-title">🎮 Painel de Treinamento:</span>
+        <div class="training-btn-group">
+          <button id="btn-train-crit" class="btn-train-action" title="Garante que o próximo ataque seja um Golpe Crítico!">
+            💥 Forçar Crítico
+          </button>
+          <button id="btn-train-heal" class="btn-train-action" title="Restaura todo o HP e EP do seu Pokémon e do Boneco">
+            💚 Restaurar HP/EP
+          </button>
+          <button id="btn-train-reset-tactics" class="btn-train-action" title="Recarrega Recuperação, Escudo e Poder Temporário">
+            ⚡ Recarregar Habilidades
+          </button>
+          <button id="btn-train-cycle-weather" class="btn-train-action" title="Muda o clima atual">
+            🌦️ Trocar Clima
+          </button>
+          <button id="btn-train-restart" class="btn-train-action btn-train-reset" title="Reinicia o Treino">
+            🔄 Reiniciar Treino
+          </button>
+        </div>
+      </div>
+
       <!-- Banner de Revelação do Adversário Surpresa (Melhoria 9) -->
       <div id="surprise-enemy-alert" class="phase-alert surprise-enemy-alert hidden">
         <span class="phase-alert-icon">❓</span>
@@ -151,6 +244,12 @@
       <div id="critical-alert" class="critical-alert hidden">
         <span class="alert-icon">⚠️</span>
         <span class="alert-msg">Cuidado! Seu Pokémon está com pouca vida!</span>
+      </div>
+
+      <!-- Alerta de Momento de Virada / Batalha Decisiva (Requisito 7) -->
+      <div id="turning-moment-alert" class="phase-alert turning-moment-alert hidden">
+        <span class="phase-alert-icon">⚡</span>
+        <span id="turning-moment-msg" class="phase-alert-msg">MOMENTO DECISIVO! A BATALHA ESTÁ NO LIMITE!</span>
       </div>
 
       <!-- Campo de Batalha (Lutador vs Lutador) -->
@@ -409,9 +508,13 @@
         </div>
 
         <div class="adv-right">
+          <div class="adv-stat-pill checkpoint-pill">
+            <span class="adv-stat-label">Checkpoint</span>
+            <span id="adv-checkpoint-tag" class="adv-stat-value">🚩 Floresta</span>
+          </div>
           <div class="adv-stat-pill">
-            <span class="adv-stat-label">Andar</span>
-            <span id="adv-stage-text" class="adv-stat-value">1 / 5</span>
+            <span class="adv-stat-label">Área / Andar</span>
+            <span id="adv-stage-text" class="adv-stat-value">1 / 6</span>
           </div>
           <div class="adv-stat-pill gold-pill">
             <span class="adv-stat-label">Poké-Moedas</span>
@@ -423,10 +526,53 @@
         </div>
       </div>
 
+      <!-- Barra de Progressão Visual das 6 Áreas da Campanha (Requisitos 19, 20, 28) -->
+      <div class="adventure-areas-bar" id="adventure-areas-bar">
+        <div class="campaign-area-node current" data-area="1">
+          <span class="area-node-icon">🌳</span>
+          <span class="area-node-name">1. Floresta Inicial</span>
+          <span class="area-node-status">● Atual</span>
+        </div>
+        <div class="campaign-area-node locked" data-area="2">
+          <span class="area-node-icon">🌊</span>
+          <span class="area-node-name">2. Lago Azul</span>
+          <span class="area-node-status">🔒 Bloqueado</span>
+        </div>
+        <div class="campaign-area-node locked" data-area="3">
+          <span class="area-node-icon">⚡</span>
+          <span class="area-node-name">3. Cidade Elétrica</span>
+          <span class="area-node-status">🔒 Bloqueado</span>
+        </div>
+        <div class="campaign-area-node locked" data-area="4">
+          <span class="area-node-icon">🌋</span>
+          <span class="area-node-name">4. Montanha Vulcânica</span>
+          <span class="area-node-status">🔒 Bloqueado</span>
+        </div>
+        <div class="campaign-area-node locked" data-area="5">
+          <span class="area-node-icon">🌙</span>
+          <span class="area-node-name">5. Vale Noturno</span>
+          <span class="area-node-status">🔒 Bloqueado</span>
+        </div>
+        <div class="campaign-area-node locked" data-area="6">
+          <span class="area-node-icon">👑</span>
+          <span class="area-node-name">6. Arena Final</span>
+          <span class="area-node-status">🔒 Bloqueado</span>
+        </div>
+      </div>
+
+      <!-- Caixa de Diálogo Narrativo da Jornada (Requisito 18) -->
+      <div class="adventure-narrative-box" id="adventure-narrative-box">
+        <div class="narrative-avatar">🧭</div>
+        <div class="narrative-content">
+          <h4 id="narrative-title" class="narrative-title">Jornada do Campeão: Floresta Inicial</h4>
+          <p id="narrative-text" class="narrative-text">Você acaba de dar seus primeiros passos rumo à glória. Escolha um nó na trilha para iniciar sua jornada!</p>
+        </div>
+      </div>
+
       <div class="adventure-map-container">
         <div class="map-title-row">
-          <h2 class="map-title">🗺️ Rota do Campeão</h2>
-          <p class="map-subtitle">Escolha seu caminho pelas trilhas da região. Lute, explore eventos misteriosos, negocie na loja e desafie o Chefe Final!</p>
+          <h2 class="map-title">🗺️ Trilha da Região</h2>
+          <p class="map-subtitle">Escolha seu caminho: enfrente batalhas, aproveite descansos, encontre eventos misteriosos e derrote o Chefe de cada área!</p>
         </div>
 
         <!-- Visualização Ramificada dos Andares do Mapa -->
@@ -438,29 +584,330 @@
 
     <!-- ==================== MODAL DE FIM DE BATALHA ==================== -->
     <div id="result-modal" class="modal-overlay hidden" style="display: none;">
-      <div class="modal-card">
+      <div class="modal-card result-modal-card">
         <div id="modal-icon" class="modal-icon">🏆</div>
         <h2 id="modal-title" class="modal-title"></h2>
         <p id="modal-description" class="modal-description"></p>
         
+        <!-- Bloco de Pontuação e Avaliação de Desempenho (Melhoria 8) -->
+        <div class="result-score-box" id="result-score-box">
+          <div class="score-stars" id="score-stars">⭐⭐⭐⭐⭐</div>
+          <div class="score-rank-badge" id="score-rank-badge">RANK S</div>
+          <div class="score-number-row">
+            <span class="score-label">Pontuação Total:</span>
+            <span id="stat-score" class="score-value">0 pts</span>
+          </div>
+        </div>
+
         <div class="modal-stats" id="modal-stats">
-          <!-- Estatísticas preenchidas ao final da batalha -->
+          <!-- Estatísticas detalhadas preenchidas ao final da batalha (Melhorias 7 e 8) -->
           <div class="stat-pill">
             <span class="stat-label">Duração</span>
             <span id="stat-turns" class="stat-num">0 turnos</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">HP Restante</span>
+            <span id="stat-remaining-hp" class="stat-num">100 HP</span>
           </div>
           <div class="stat-pill">
             <span class="stat-label">Combos Feitos</span>
             <span id="stat-combos" class="stat-num">0</span>
           </div>
           <div class="stat-pill">
+            <span class="stat-label">Golpes Críticos</span>
+            <span id="stat-crits" class="stat-num">0</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">Habilidades Usadas</span>
+            <span id="stat-tactics" class="stat-num">0</span>
+          </div>
+          <div class="stat-pill">
             <span class="stat-label">Recompensa</span>
-            <span id="stat-reward" class="stat-num">🪙 +30</span>
+            <span id="stat-reward" class="stat-num">🪙 +35</span>
           </div>
         </div>
 
-        <button id="btn-play-again" class="btn-restart">
-          🔄 Continuar Jornada
+        <div class="result-modal-actions">
+          <button id="btn-play-again" class="btn-restart">
+            🔄 Continuar
+          </button>
+          <button id="btn-view-replay" class="btn-secondary btn-modal-replay" title="Ver Resumo e Melhores Momentos">
+            🎬 Ver Resumo / Replay
+          </button>
+          <button id="btn-change-pokemon" class="btn-secondary btn-modal-change">
+            👤 Trocar de Pokémon
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL DE REPLAY / RESUMO DA BATALHA (Requisito 11) ==================== -->
+    <div id="replay-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card replay-modal-card">
+        <div class="replay-modal-header">
+          <div class="modal-icon">🎬</div>
+          <div>
+            <h2 class="modal-title">Resumo da Batalha (Replay)</h2>
+            <p class="modal-description">Linha do tempo com os acontecimentos mais decisivos do combate.</p>
+          </div>
+          <button id="btn-close-replay" class="btn-close-modal" title="Fechar">✕</button>
+        </div>
+
+        <div class="replay-timeline" id="replay-timeline">
+          <!-- Passos da batalha injetados dinamicamente pelo JS -->
+        </div>
+
+        <div class="replay-modal-footer">
+          <button id="btn-replay-done" class="btn-restart">
+            Voltar aos Resultados
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL DE VITÓRIA FINAL DA AVENTURA (Requisito 30) ==================== -->
+    <div id="adventure-victory-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card adventure-victory-card">
+        <div class="modal-icon">👑</div>
+        <h2 class="modal-title">🏆 GRANDE CAMPEÃO REGIONAL!</h2>
+        <p class="modal-description">Você superou todas as 6 Áreas da região, derrotou os Guardiões Elementais e triunfou sobre o Chefe Supremo!</p>
+
+        <div class="adv-victory-hero-box">
+          <img id="adv-victory-hero-img" class="adv-victory-hero-img" src="" alt="Herói Campeão">
+          <h3 id="adv-victory-hero-name" class="adv-victory-hero-name">Pikachu</h3>
+          <span class="badge-champion">LENDÁRIO VENCEDOR</span>
+        </div>
+
+        <div class="adv-victory-stats-grid">
+          <div class="stat-pill">
+            <span class="stat-label">Áreas Conquistadas</span>
+            <span class="stat-num">6 / 6</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">Chefes Derrotados</span>
+            <span class="stat-num">6 Chefes</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">Pontuação Total</span>
+            <span id="adv-victory-score" class="stat-num">4.850 pts</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">Classificação Final</span>
+            <span class="stat-num">RANK S+ (MESTRE POKÉMON)</span>
+          </div>
+        </div>
+
+        <div class="adv-victory-actions">
+          <button id="btn-restart-adventure-campaign" class="btn-restart">
+            🎉 Jogar Nova Aventura (Rejogabilidade)
+          </button>
+          <button id="btn-victory-back-menu" class="btn-secondary">
+            🏠 Voltar ao Menu Principal
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL DE INFORMAÇÕES DO POKÉMON (Melhoria 5) ==================== -->
+    <div id="pokemon-info-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card pokemon-info-modal-card">
+        <div class="info-modal-header">
+          <span id="info-modal-badge" class="type-badge">Tipo</span>
+          <button id="btn-close-poke-info" class="btn-close-modal" title="Fechar">✕</button>
+        </div>
+        <div class="info-modal-body">
+          <img id="info-modal-img" class="info-modal-img" src="" alt="Pokémon">
+          <h2 id="info-modal-name" class="modal-title"></h2>
+          <p id="info-modal-desc" class="modal-description"></p>
+
+          <div class="personality-badge-row">
+            <span class="personality-tag" id="info-personality-tag">🎭 Personalidade: Confiante</span>
+          </div>
+
+          <!-- Sistema de Afinidade do Pokémon (Requisito 3) -->
+          <div class="affinity-box" id="affinity-box">
+            <div class="affinity-header">
+              <span>🤝 Nível de Afinidade:</span>
+              <strong id="info-affinity-title" class="affinity-badge">Parceiro de Batalha</strong>
+            </div>
+            <div class="affinity-stats-row">
+              <div class="aff-stat-col"><span>Batalhas:</span> <strong id="info-affinity-battles">0</strong></div>
+              <div class="aff-stat-col"><span>Vitórias:</span> <strong id="info-affinity-wins">0</strong></div>
+              <div class="aff-stat-col"><span>Dano:</span> <strong id="info-affinity-damage">0</strong></div>
+              <div class="aff-stat-col"><span>Críticos:</span> <strong id="info-affinity-crits">0</strong></div>
+            </div>
+          </div>
+
+          <div class="info-details-grid">
+            <div class="info-detail-item">
+              <span class="info-detail-label">Estilo de Batalha:</span>
+              <strong id="info-modal-style" class="info-detail-val"></strong>
+            </div>
+            <div class="info-detail-item">
+              <span class="info-detail-label">Principal Vantagem:</span>
+              <strong id="info-modal-advantage" class="info-detail-val"></strong>
+            </div>
+            <div class="info-detail-item">
+              <span class="info-detail-label">Característica:</span>
+              <strong id="info-modal-feature" class="info-detail-val"></strong>
+            </div>
+            <div class="info-detail-item">
+              <span class="info-detail-label">HP Inicial:</span>
+              <strong id="info-modal-hp" class="info-detail-val"></strong>
+            </div>
+          </div>
+
+          <div class="info-stats-container">
+            <h4 class="info-stats-title">📊 Atributos de Combate</h4>
+            <div class="stat-bar-row">
+              <span class="stat-bar-label">⚔️ Ataque</span>
+              <div class="stat-bar-track"><div id="info-stat-atk" class="stat-bar-fill atk"></div></div>
+              <span id="info-val-atk" class="stat-bar-num">85</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-label">🛡️ Defesa</span>
+              <div class="stat-bar-track"><div id="info-stat-def" class="stat-bar-fill def"></div></div>
+              <span id="info-val-def" class="stat-bar-num">70</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-label">💨 Velocidade</span>
+              <div class="stat-bar-track"><div id="info-stat-spd" class="stat-bar-fill spd"></div></div>
+              <span id="info-val-spd" class="stat-bar-num">90</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-label">💚 Vida (HP)</span>
+              <div class="stat-bar-track"><div id="info-stat-hp" class="stat-bar-fill hp"></div></div>
+              <span id="info-val-hp" class="stat-bar-num">100</span>
+            </div>
+          </div>
+
+          <button id="btn-select-from-info" class="btn-choose" style="margin-top: 18px;">
+            ⚡ Escolher Este Pokémon
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL DE DESBLOQUEIO DE POKÉMON (Requisito 9) ==================== -->
+    <div id="unlock-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card unlock-modal-card">
+        <div class="unlock-confetti">✨ 🎉 ✨</div>
+        <div class="modal-icon unlock-badge-pulse">⭐</div>
+        <h2 class="modal-title">NOVO POKÉMON DESBLOQUEADO!</h2>
+        <p class="modal-description">Você alcançou 5 vitórias e liberou um novo parceiro para o seu time!</p>
+        
+        <div class="unlock-poke-card">
+          <div class="unlock-poke-glow"></div>
+          <img id="unlock-poke-img" class="unlock-poke-img" src="" alt="Pokémon Desbloqueado">
+          <h3 id="unlock-poke-name" class="unlock-poke-name">Eevee</h3>
+          <span id="unlock-poke-type" class="type-badge">Tipo</span>
+          <p id="unlock-poke-desc" class="unlock-poke-desc"></p>
+          <div class="unlock-poke-characteristic" id="unlock-poke-characteristic"></div>
+        </div>
+        
+        <button id="btn-close-unlock" class="btn-restart" style="margin-top: 16px;">
+          🎉 Continuar Jogando!
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL DE CONFIGURAÇÕES E ACESSIBILIDADE (Requisito 5) ==================== -->
+    <div id="settings-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card settings-modal-card">
+        <div class="settings-modal-header">
+          <div class="modal-icon">⚙️</div>
+          <div>
+            <h2 class="modal-title">Configurações & Acessibilidade</h2>
+            <p class="modal-description">Personalize o som, velocidade e efeitos visuais do jogo.</p>
+          </div>
+          <button id="btn-close-settings" class="btn-close-modal" title="Fechar">✕</button>
+        </div>
+
+        <div class="settings-options-list">
+          <div class="setting-item">
+            <div class="setting-text">
+              <strong>🎵 Música de Fundo</strong>
+              <span>Ativa ou desativa a trilha retrô sintetizada</span>
+            </div>
+            <button id="btn-setting-music" class="setting-toggle-btn">Música: OFF</button>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-text">
+              <strong>🔊 Efeitos Sonoros</strong>
+              <span>Sons de ataques, golpes, cura e reações</span>
+            </div>
+            <button id="btn-setting-sound" class="setting-toggle-btn active">Sons: ON</button>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-text">
+              <strong>🎚️ Volume Principal</strong>
+              <span>Ajusta o nível geral do Web Audio</span>
+            </div>
+            <div class="setting-slider-box">
+              <input type="range" id="setting-volume-slider" min="0" max="100" value="80" class="setting-slider">
+              <span id="setting-volume-val">80%</span>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-text">
+              <strong>✨ Reduzir Efeitos Visuais</strong>
+              <span>Otimiza partículas e animações para acessibilidade</span>
+            </div>
+            <button id="btn-setting-motion" class="setting-toggle-btn">Efeitos: Normais</button>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-text">
+              <strong>⚡ Velocidade das Batalhas</strong>
+              <span>Diminui as pausas entre ações dos turnos</span>
+            </div>
+            <button id="btn-setting-speed" class="setting-toggle-btn">Velocidade: Normal</button>
+          </div>
+
+          <div class="setting-item reset-item">
+            <div class="setting-text">
+              <strong>🗑️ Resetar Progresso Salvo</strong>
+              <span>Reinicia vitórias, desbloqueios e histórico</span>
+            </div>
+            <button id="btn-setting-reset" class="btn-danger-reset">Resetar Progresso</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL DE DESAFIOS DIÁRIOS (Requisito 8) ==================== -->
+    <div id="quests-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card quests-modal-card">
+        <div class="quests-modal-header">
+          <div class="modal-icon">📅</div>
+          <div>
+            <h2 class="modal-title">Desafios Diários Locais</h2>
+            <p class="modal-description" id="quests-date-subtitle">Missões renovadas a cada dia para testar suas habilidades!</p>
+          </div>
+          <button id="btn-close-quests" class="btn-close-modal" title="Fechar">✕</button>
+        </div>
+
+        <div class="quests-list" id="quests-list">
+          <!-- Injetado dinamicamente pelo JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL DE TRANSIÇÃO NARRATIVA DA AVENTURA (Requisito 6) ==================== -->
+    <div id="story-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card story-modal-card">
+        <div id="story-modal-icon" class="modal-icon">📜</div>
+        <h2 id="story-modal-title" class="modal-title">Capítulo da Aventura</h2>
+        <p id="story-modal-text" class="story-modal-text"></p>
+        <div class="story-objective-box">
+          <span>🎯 Próximo Objetivo:</span>
+          <strong id="story-modal-objective">Explore o território e avance para a vitória!</strong>
+        </div>
+        <button id="btn-continue-story" class="btn-restart" style="margin-top: 18px;">
+          Continuar Jornada →
         </button>
       </div>
     </div>
